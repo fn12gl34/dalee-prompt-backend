@@ -2,17 +2,18 @@ import os
 import random
 import uuid
 
-from aredis import StrictRedis
+import redis
+from redis import Redis
 
 
 class RedisProvider:
 
     def __init__(self):
-        self._redis_cluster: StrictRedis = StrictRedis(host=os.environ.get('REDIS_URL'), port=14159)
+        self._redis: Redis = redis.from_url(os.environ.get('REDIS_URL'))
 
-    async def get(self):
-        r = await self._redis_cluster.keys('*')
+    def get(self):
+        r = self._redis.keys('*')
         return r
 
-    async def set(self):
-        await self._redis_cluster.set(uuid.uuid4(), random.randint(228, 1488))
+    def set(self):
+        self._redis.set(str(uuid.uuid4()), random.randint(228, 1488))
