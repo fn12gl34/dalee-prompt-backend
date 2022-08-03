@@ -10,6 +10,7 @@ class RedisProvider:
 
     def __init__(self):
         self._redis: Redis = redis.from_url(os.environ.get('REDIS_URL'))
+        print(f'REDIS: {self._redis}')
 
     def get(self):
         r = self._redis.keys('*')

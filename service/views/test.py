@@ -11,4 +11,4 @@ class TestHandler(web.View):
 
     async def post(self):
         r = self.request.app[REDIS_PROVIDER]
-        await r.set()
+        r.set()
