@@ -12,8 +12,7 @@ class RedisProvider:
     ATTRIBUTE = 'attribute'
 
     def __init__(self):
-        self.__redis = redis.Redis(host='127.0.0.1', port=6379)
-        # self.__redis: redis.Redis = redis.from_url(os.environ.get('REDIS_URL'))
+        self.__redis: redis.Redis = redis.from_url(os.environ.get('REDIS_URL'))
         self._prefixes = {self.TAG, self.SCHEMA, self.ATTRIBUTE}
 
     def validate_prefix(self, prefix: str) -> bool:
