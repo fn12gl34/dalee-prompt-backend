@@ -1,8 +1,7 @@
 import os
 
 import redis
-from redis import Redis
-
+import json
 
 class RedisProvider:
 
@@ -12,7 +11,7 @@ class RedisProvider:
     ATTRIBUTE = 'attribute'
 
     def __init__(self):
-        self.__redis: Redis = redis.from_url(os.environ.get('REDIS_URL'))
+        self.__redis: redis.Redis = redis.from_url(os.environ.get('REDIS_URL'))
         self._prefixes = {self.TAG, self.SCHEMA, self.ATTRIBUTE}
 
     def validate_prefix(self, prefix: str) -> bool:
@@ -25,13 +24,13 @@ class RedisProvider:
     def get(self, key: str):
         if not self.validate_prefix(key):
             return None
-        value = self.redis_connection.get(key)
+        value = json.loads(self.redis_connection.get(key))
         return value
 
     def set(self, key: str, data):
         if not self.validate_prefix(key):
             return
-        self.redis_connection.set(key, data)
+        self.redis_connection.set(key, json.dumps(data))
 
     def get_all(self, prefix: str):
         if not self.validate_prefix(prefix):
