@@ -15,3 +15,8 @@ class TestHandler(web.View):
             r.set()
         except Exception as e:
             print(f'ERROR: {e}')
+
+
+class AbobaHandler(web.View):
+    async def get(self):
+        return {'result': 'aboba'}
