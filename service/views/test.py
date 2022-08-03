@@ -10,5 +10,8 @@ class TestHandler(web.View):
         return {'result': keys}
 
     async def post(self):
-        r = self.request.app[REDIS_PROVIDER]
-        r.set()
+        try:
+            r = self.request.app[REDIS_PROVIDER]
+            r.set()
+        except Exception as e:
+            print(f'ERROR: {e}')
