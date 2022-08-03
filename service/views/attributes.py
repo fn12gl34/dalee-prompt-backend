@@ -10,7 +10,7 @@ class AttributesView(web.View):
             redis_key = f'{self.request.app[REDIS_PROVIDER].ATTRIBUTE}/{request_data.get("id")}'
             result = self.request.app[REDIS_PROVIDER].get(redis_key)
         else:
-            result = self.request.app[REDIS_PROVIDER].getall(self.request.app[REDIS_PROVIDER].ATTRIBUTE)
+            result = self.request.app[REDIS_PROVIDER].get_all(self.request.app[REDIS_PROVIDER].ATTRIBUTE)
         return web.json_response(result)
 
     async def post(self):
