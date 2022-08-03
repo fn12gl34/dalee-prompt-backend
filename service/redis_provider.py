@@ -1,6 +1,4 @@
 import os
-import random
-import uuid
 
 import redis
 from redis import Redis
@@ -8,13 +6,39 @@ from redis import Redis
 
 class RedisProvider:
 
+    # key prefixes
+    TAG = 'tag'
+    SCHEMA = 'schema'
+    ATTRIBUTE = 'attribute'
+
     def __init__(self):
-        self._redis: Redis = redis.from_url(os.environ.get('REDIS_URL'))
-        print(f'REDIS: {self._redis}')
+        self.__redis: Redis = redis.from_url(os.environ.get('REDIS_URL'))
+        self._prefixes = {self.TAG, self.SCHEMA, self.ATTRIBUTE}
 
-    def get(self):
-        r = self._redis.keys('*')
-        return r
+    def validate_prefix(self, prefix: str) -> bool:
+        return any([i for i in self._prefixes if i in prefix])
 
-    def set(self):
-        self._redis.set(str(uuid.uuid4()), random.randint(228, 1488))
+    @property
+    def redis_connection(self):
+        return self.__redis
+
+    def get(self, key: str):
+        if not self.validate_prefix(key):
+            return None
+        value = self.redis_connection.get(key)
+        return value
+
+    def set(self, key: str, data):
+        if not self.validate_prefix(key):
+            return
+        self.redis_connection.set(key, data)
+
+    def get_all(self, prefix: str):
+        if not self.validate_prefix(prefix):
+            return None
+        keys = self.redis_connection.keys(f'{prefix}/*')
+        data = []
+        for key in keys:
+            data.append(self.get(key))
+        return data
+
