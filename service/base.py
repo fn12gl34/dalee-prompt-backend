@@ -17,7 +17,7 @@ def create_app() -> Application:
 async def init_routes(aiohttp_app: Application) -> None:
     aiohttp_app.add_routes([get('/health/liveness', liveness)])
     aiohttp_app.router.add_view('/redis_test', TestHandler)
-    aiohttp_app.router.add_view('/aboba', AbobaHandler)
+    aiohttp_app.add_routes([get('/aboba', AbobaHandler.get)])
 
 
 def init_redis_provider():
