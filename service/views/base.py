@@ -6,5 +6,5 @@ async def liveness(_):
 
 
 async def aboba(self):
-    return {'result': 'aboba'}
+    return Response(text='aboba')
 
