@@ -8,7 +8,7 @@ class TestHandler(web.View):
     async def get(self):
         r = self.request.app[REDIS_PROVIDER]
         keys = r.get()
-        return Response(body={'result': keys})
+        return Response(text=str({'result': keys}))
 
     async def post(self):
         try:
