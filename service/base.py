@@ -3,7 +3,7 @@ from aiohttp.web_routedef import get
 
 from service.views.base import liveness
 from service.redis_provider import RedisProvider
-from constants import *
+from service.constants import *
 from service.views.test import TestHandler
 
 
