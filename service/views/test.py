@@ -1,4 +1,5 @@
 from aiohttp import web
+from aiohttp.web_response import Response
 
 from service.constants import *
 
@@ -7,7 +8,7 @@ class TestHandler(web.View):
     async def get(self):
         r = self.request.app[REDIS_PROVIDER]
         keys = r.get()
-        return {'result': keys}
+        return Response(body={'result': keys})
 
     async def post(self):
         try:
@@ -15,8 +16,4 @@ class TestHandler(web.View):
             r.set()
         except Exception as e:
             print(f'ERROR: {e}')
-
-
-class AbobaHandler(web.View):
-    async def get(self):
-        return {'result': 'aboba'}
+        return Response(text='fuck you boy')

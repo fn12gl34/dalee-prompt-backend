@@ -1,10 +1,10 @@
 from aiohttp.web_app import Application
 from aiohttp.web_routedef import get
 
-from service.views.base import liveness, aboba
+from service.views.base import liveness
 from service.redis_provider import RedisProvider
 from service.constants import *
-from service.views.test import TestHandler, AbobaHandler
+from service.views.test import TestHandler
 
 
 def create_app() -> Application:
@@ -15,7 +15,7 @@ def create_app() -> Application:
 
 
 async def init_routes(aiohttp_app: Application) -> None:
-    aiohttp_app.add_routes([get('/aboba', aboba)])
+    aiohttp_app.add_routes([get('/health/liveness', liveness)])
     aiohttp_app.router.add_view('/redis_test', TestHandler)
 
 
