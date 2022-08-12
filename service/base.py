@@ -18,7 +18,7 @@ def create_app() -> Application:
 
 
 async def init_routes(aiohttp_app: Application) -> None:
-    aiohttp_app.add_routes([get('/health/liveness', liveness)])
+    aiohttp_app.router.add_route('GET', '/health/liveness', liveness)
     aiohttp_app.router.add_view('/attributes', AttributesView)
     aiohttp_app.router.add_view('/tags', TagsView)
     aiohttp_app.router.add_view('/schema', SchemasView)
