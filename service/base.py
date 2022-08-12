@@ -13,11 +13,6 @@ from service.views.schemas import SchemasView
 def create_app() -> Application:
     aiohttp_app = Application()
     aiohttp_app[REDIS_PROVIDER]: RedisProvider = init_redis_provider()
-    aiohttp_app.on_startup.extend([init_routes, init_middlewares])
-    return aiohttp_app
-
-
-async def init_routes(aiohttp_app: Application) -> None:
     cors = aiohttp_cors.setup(aiohttp_app, defaults={
         "*": aiohttp_cors.ResourceOptions(
             allow_credentials=True,
@@ -26,6 +21,11 @@ async def init_routes(aiohttp_app: Application) -> None:
         )
     })
     cors.add(aiohttp_app.router.add_route('GET', '/health/liveness', liveness))
+    aiohttp_app.on_startup.extend([init_routes, init_middlewares])
+    return aiohttp_app
+
+
+async def init_routes(aiohttp_app: Application) -> None:
     aiohttp_app.router.add_view('/attributes', AttributesView)
     aiohttp_app.router.add_view('/tags', TagsView)
     aiohttp_app.router.add_view('/schema', SchemasView)
