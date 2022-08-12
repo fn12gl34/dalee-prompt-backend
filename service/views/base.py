@@ -2,4 +2,4 @@ from aiohttp.web_response import Response
 
 
 async def liveness(_):
-    return Response(text='fuck you cop, ama a dnb producer')
+    return Response(text='fuck you cop, ama a dnb producer', headers={'Access-Control-Allow-Origin': '*'})
