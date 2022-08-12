@@ -1,5 +1,5 @@
 from aiohttp.web_app import Application
-from aiohttp.web_routedef import get
+import aiohttp_cors
 
 from service.middlewares import authorization_middleware
 from service.views.base import liveness
@@ -18,7 +18,14 @@ def create_app() -> Application:
 
 
 async def init_routes(aiohttp_app: Application) -> None:
-    aiohttp_app.router.add_route('GET', '/health/liveness', liveness)
+    cors = aiohttp_cors.setup(aiohttp_app, defaults={
+        "*": aiohttp_cors.ResourceOptions(
+            allow_credentials=True,
+            expose_headers="*",
+            allow_headers="*",
+        )
+    })
+    cors.add(aiohttp_app.router.add_route('GET', '/health/liveness', liveness))
     aiohttp_app.router.add_view('/attributes', AttributesView)
     aiohttp_app.router.add_view('/tags', TagsView)
     aiohttp_app.router.add_view('/schema', SchemasView)
