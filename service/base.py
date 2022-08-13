@@ -18,9 +18,9 @@ def create_app() -> Application:
 
 
 async def init_routes(aiohttp_app: Application) -> None:
-    aiohttp_app.router.add_view('/attributes', AttributesView)
+    '''aiohttp_app.router.add_view('/attributes', AttributesView)
     aiohttp_app.router.add_view('/tags', TagsView)
-    aiohttp_app.router.add_view('/schema', SchemasView)
+    aiohttp_app.router.add_view('/schema', SchemasView)'''
     aiohttp_app.router.add_route('GET', '/health/liveness', liveness)
     cors = aiohttp_cors.setup(aiohttp_app, defaults={
         "*": aiohttp_cors.ResourceOptions(

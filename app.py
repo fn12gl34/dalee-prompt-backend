@@ -9,4 +9,4 @@ if __name__ == '__main__':
         app = create_app()
         web.run_app(app, port=os.getenv('PORT'))
     except Exception as e:
-        print('Unhandled exception in platform-restrictions-settings-service, error: %s', e)
+        print('Unhandled exception in dalee-prompt-backend, error: %s', e)
