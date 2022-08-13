@@ -5,7 +5,11 @@ from service.constants import *
 class AttributesView(web.View):
 
     async def get(self):
-        result = self.request.app[REDIS_PROVIDER].get_all(self.request.app[REDIS_PROVIDER].ATTRIBUTE)
+        if 'id' in request_data:
+            redis_key = f'{self.request.app[REDIS_PROVIDER].ATTRIBUTE}/{request_data.get("id")}'
+            result = self.request.app[REDIS_PROVIDER].get(redis_key)
+        else:
+            result = self.request.app[REDIS_PROVIDER].get_all(self.request.app[REDIS_PROVIDER].ATTRIBUTE)
         return web.json_response(result)
 
     async def post(self):
