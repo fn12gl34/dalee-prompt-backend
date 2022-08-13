@@ -1,3 +1,4 @@
 aiohttp
 redis
 aiohttp_cors
+aiohttp-middlewares
