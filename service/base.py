@@ -30,5 +30,5 @@ def init_redis_provider():
 
 
 async def init_middlewares(aiohttp_app: Application) -> None:
-    aiohttp_app.middlewares.append(authorization_middleware)
     aiohttp_app.middlewares.append(cors_middleware(allow_all=True))
+    aiohttp_app.middlewares.append(authorization_middleware)
