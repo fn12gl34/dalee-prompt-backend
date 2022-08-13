@@ -11,9 +11,9 @@ from service.views.schemas import SchemasView
 
 
 def create_app() -> Application:
-    aiohttp_app = Application()
+    aiohttp_app = Application(middlewares=[cors_middleware(allow_all=True)])
     # aiohttp_app[REDIS_PROVIDER]: RedisProvider = init_redis_provider()
-    aiohttp_app.on_startup.extend([init_routes, init_middlewares])
+    aiohttp_app.on_startup.extend([init_routes])
     return aiohttp_app
 
 
